@@ -37,6 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LeaderService } from './services/leader.service';
 import { PromotionService } from './services/promotion.service';
 import { baseURL } from './shared/baseurl';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { baseURL } from './shared/baseurl';
     DishService,
     LeaderService,
     PromotionService,
-    { provide: 'baseURL', useValue: baseURL }
+    { provide: 'baseURL', useValue: baseURL },
+    ProcessHTTPMsgService
   ],
   entryComponents: [
     LoginComponent
