@@ -32,6 +32,7 @@ export class DishdetailComponent implements OnInit {
   };
 
   dish: Dish;
+  dishcopy: Dish;
   dishIds: string[];
   prev: string;
   next: string;
@@ -40,7 +41,7 @@ export class DishdetailComponent implements OnInit {
   errorMessage: string;
   @ViewChild('cform') commentFormDirective;
 
-  constructor(private dishservice: DishService,
+  constructor(private dishService: DishService,
     private route: ActivatedRoute,
     private location: Location,
     private formBuilder: FormBuilder,
@@ -48,9 +49,10 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
     this.createForms();
-    this.dishservice.getDishIds().subscribe(dishIds => this.dishIds = dishIds, errorMessage => this.errorMessage = errorMessage);
-    this.route.params.pipe(switchMap((params: Params) => this.dishservice.getDish(params['id'])))
-    .subscribe(dish => { this.dish = dish; this.setPrevNext(dish.id); });
+    this.route.params
+      .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
+      .subscribe(dish => { this.dish = dish as Dish; this.dishcopy = dish as Dish; this.setPrevNext((<Dish>dish).id); },
+        errorMessage => this.errorMessage = errorMessage );
   }
 
   createForms() {
@@ -97,7 +99,12 @@ export class DishdetailComponent implements OnInit {
   onSubmit() {
     this.dishComment = this.commentForm.value as Comment;
     this.dishComment.date = new Date().toISOString();
-    this.dish.comments.push(this.dishComment);
+    this.dishcopy.comments.push(this.dishComment);
+    this.dishService.putDish(this.dishcopy)
+      .subscribe(dish => {
+        this.dish = dish; this.dishcopy = dish;
+      },
+      errorMessage => { this.dish = null; this.dishcopy = null; this.errorMessage = errorMessage; });
     this.commentFormDirective.resetForm();
     this.commentForm.reset({
       author: '',

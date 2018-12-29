@@ -20,6 +20,10 @@ import { ContactComponent } from './contact/contact.component';
 
 // Services
 import { DishService } from './services/dish.service';
+import { LeaderService } from './services/leader.service';
+import { PromotionService } from './services/promotion.service';
+import { baseURL } from './shared/baseurl';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 // Modules
 import { AppRoutingModule } from './app-routing/app-routing.module';
@@ -34,10 +38,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSliderModule } from '@angular/material';
 import { HttpClientModule } from '@angular/common/http';
-import { LeaderService } from './services/leader.service';
-import { PromotionService } from './services/promotion.service';
-import { baseURL } from './shared/baseurl';
-import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
